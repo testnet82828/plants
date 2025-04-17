@@ -5,3 +5,4 @@ numpy
 Pillow
 google-generativeai
 supabase
+gdown
