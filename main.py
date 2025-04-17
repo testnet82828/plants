@@ -126,11 +126,7 @@ def download_model():
         os.makedirs("trained_model", exist_ok=True)
         url = "https://drive.google.com/file/d/1lUuIzhcCdZEDmqfSFJcdw44na2qdeQyR/view?usp=drivesdk"  # Replace with your Google Drive file ID
         st.write(f"Downloading model from Google Drive to: {model_path}")
-        try:
-            gdown.download(url, model_path, quiet=False)
-        except Exception as e:
-            st.error(f"Failed to download model from Google Drive: {e}")
-            raise
+        gdown.download(url, model_path, quiet=False)
     st.write(f"Model path: {model_path}")
     st.write(f"File exists: {os.path.exists(model_path)}")
     st.write(f"File size: {os.path.getsize(model_path)} bytes")
@@ -175,14 +171,15 @@ def load_class_indices(class_file_path):
 
 working_dir = os.path.dirname(os.path.abspath(__file__))
 st.write(f"Current working directory: {working_dir}")
+model_path = download_model()
+class_file_path = f"{working_dir}/class_indices.json"
+
 try:
-    model_path = download_model()
     st.write("Root directory contents:", os.listdir(working_dir))
     if os.path.exists(f"{working_dir}/trained_model"):
         st.write("Trained model directory contents:", os.listdir(f"{working_dir}/trained_model"))
     else:
         st.write("Trained model directory does not exist, created during download.")
-    class_file_path = f"{working_dir}/class_indices.json"
     disease_model = load_model(model_path)
     class_indices = load_class_indices(class_file_path)
 except Exception as e:
