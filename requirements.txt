@@ -6,3 +6,4 @@ Pillow
 google-generativeai
 supabase
 gdown
+h5py
